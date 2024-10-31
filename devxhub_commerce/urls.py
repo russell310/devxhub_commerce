@@ -1,5 +1,5 @@
 """
-URL configuration for dexhub_commerce project.
+URL configuration for devxhub_commerce project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.1/topics/http/urls/
@@ -20,11 +20,18 @@ from rest_framework import routers
 from django.conf import settings
 from django.conf.urls.static import static
 
+from apps.order.views import CartViewSet, OrderViewSet
+from apps.product.views import ProductViewSet
+from apps.review.views import ReviewViewSet
 from apps.user.views import CustomerViewSet, AdminViewSet
 
 router = routers.DefaultRouter()
 router.register(r'customer', CustomerViewSet)
 router.register(r'admin', AdminViewSet)
+router.register(r'product', ProductViewSet)
+router.register(r'cart', CartViewSet)
+router.register(r'order', OrderViewSet)
+router.register(r'review', ReviewViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

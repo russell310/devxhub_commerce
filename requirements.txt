@@ -11,3 +11,4 @@ djangorestframework-simplejwt==5.3.1
 pillow==11.0.0
 python-decouple==3.8
 sentry-sdk==2.17.0
+stripe==11.2.0

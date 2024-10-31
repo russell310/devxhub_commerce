@@ -1,5 +1,5 @@
 """
-WSGI config for dexhub_commerce project.
+WSGI config for devxhub_commerce project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'dexhub_commerce.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'devxhub_commerce.settings')
 
 application = get_wsgi_application()
