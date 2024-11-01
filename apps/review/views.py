@@ -15,6 +15,18 @@ class ReviewViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, ]
     filterset_fields = ['product']
 
+    def get_permissions(self):
+        permissions = super().get_permissions()
+        if self.request.method.lower() == 'get':
+            return []
+        return permissions
+
+    def get_authenticators(self):
+        auth = super().get_authenticators()
+        if self.request.method.lower() == 'get':
+            return []
+        return auth
+
     def get_queryset(self):
         queryset = super().get_queryset()
         if self.request.user.groups.filter(name='customer'):

@@ -16,6 +16,18 @@ class ProductViewSet(viewsets.ModelViewSet):
     filter_backends = [SearchFilter, ]
     search_fields = ['name', 'description']
 
+    def get_permissions(self):
+        permissions = super().get_permissions()
+        if self.request.method.lower() == 'get':
+            return []
+        return permissions
+
+    def get_authenticators(self):
+        auth = super().get_authenticators()
+        if self.request.method.lower() == 'get':
+            return []
+        return auth
+
     def list(self, request, *args, **kwargs):
         cache_key = 'product_list'
         cached_data = cache.get(cache_key)
