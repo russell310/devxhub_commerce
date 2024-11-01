@@ -46,6 +46,7 @@ class Order(models.Model):
     grand_total = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, editable=False)
     shipping_address = models.TextField(null=True, blank=True)
     payment_status = models.CharField(max_length=20, default='pending', choices=PAYMENT_STATUS)
+    is_send_email = models.BooleanField(default=False)
 
 
 class OrderItem(models.Model):

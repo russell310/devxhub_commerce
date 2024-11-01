@@ -1,7 +1,5 @@
-from django.conf import settings
-from django.core.mail import send_mail
-
 from .models import Order, OrderItem
+from ..product.tasks import check_product_stock
 
 
 def convert_cart_to_order(cart, shipping_address):
@@ -22,17 +20,8 @@ def convert_cart_to_order(cart, shipping_address):
         product = cart_item.product
         product.quantity -= cart_item.quantity
         product.save()
+        check_product_stock.apply_async(args=[product.id])
     cart.status = 'ordered'
     cart.save()
 
     return order
-
-
-def send_order_confirmation_email(order_id, user_email):
-    send_mail(
-        subject=f'Payment Confirmation for Order #{order_id}',
-        message=f'Thank you for your payment. Your order #{order_id} has been successfully processed.',
-        from_email=settings.DEFAULT_FROM_EMAIL,
-        recipient_list=[user_email],
-        fail_silently=False,
-    )

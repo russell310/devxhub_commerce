@@ -15,7 +15,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     image = models.ImageField(upload_to='product_images/', null=True, blank=True)
     quantity = models.IntegerField(default=0)
-    stock_level = models.CharField(max_length=20, choices=STOCK_LEVEL_CHOICES, null=True, blank=True)
+    stock_level = models.CharField(max_length=20, choices=STOCK_LEVEL_CHOICES, default='in_stock')
 
     def __str__(self):
         return self.name

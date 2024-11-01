@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from .models import Cart, CartItem, Order
 from .serializers import CartSerializer, CartItemAddSerializer, CheckoutSerializer, OrderSerializer, \
     TrackOrderSerializer
-from .utils import convert_cart_to_order, send_order_confirmation_email
+from .utils import convert_cart_to_order
 from django.conf import settings
 import stripe
 
@@ -78,6 +78,12 @@ class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if self.request.user.groups.filter(name='customer'):
+            return queryset.filter(user=self.request.user)
+        return queryset
+
     @action(detail=True, methods=['post'])
     def pay_order(self, request, pk=None):
         try:
@@ -90,7 +96,6 @@ class OrderViewSet(viewsets.ModelViewSet):
             )
             order.payment_status = 'completed'
             order.save()
-            send_order_confirmation_email(order.id, order.user.email)
             return Response({"message": "Payment successful", "order_id": order.id}, status=status.HTTP_200_OK)
 
         except stripe.error.StripeError as e:

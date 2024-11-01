@@ -15,5 +15,11 @@ class ReviewViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, ]
     filterset_fields = ['product']
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if self.request.user.groups.filter(name='customer'):
+            return queryset.filter(user=self.request.user)
+        return queryset
+
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

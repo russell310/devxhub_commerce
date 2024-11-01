@@ -3,6 +3,8 @@ from allauth.socialaccount.models import SocialAccount, SocialToken, SocialApp
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Group
+from django_celery_beat.models import CrontabSchedule, SolarSchedule, IntervalSchedule, ClockedSchedule, PeriodicTask
+from django_celery_results.models import TaskResult, GroupResult
 from rest_framework.authtoken.models import TokenProxy
 
 from .models import Admin, Customer
@@ -15,6 +17,13 @@ admin.site.unregister(SocialToken)
 admin.site.unregister(SocialApp)
 admin.site.unregister(Group)
 admin.site.unregister(TokenProxy)
+admin.site.unregister(TaskResult)
+admin.site.unregister(GroupResult)
+admin.site.unregister(PeriodicTask)
+admin.site.unregister(ClockedSchedule)
+admin.site.unregister(CrontabSchedule)
+admin.site.unregister(SolarSchedule)
+admin.site.unregister(IntervalSchedule)
 
 
 @admin.register(Admin)
